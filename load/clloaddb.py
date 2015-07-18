@@ -11,13 +11,12 @@ import loxias.database as db
 class loaddb(object):
     def __init__(self):
         self.conn = None
-        self.path = '/home/sean/football/data/England/'
-        self.conn_string = "host='localhost' dbname='footballdb' user='postgres' password='tqbfjot1d'"
+        x = cldbconfig()
+        self.conn_string.format(host = x.getdbhost(), dbname = x.getdbname(), user = x.getdbuser, password = x.getdbpassword())
+        self.pathdata = Path(x.getpathdata())
         self.setteams = set([])
     def connect(self):
-        conn_string = "host='localhost' dbname='footballdb' user='postgres' password='tqbfjot1d'"
-        print "Connecting to database\n  -->%s" % (conn_string)
-        self.conn = psycopg2.connect(conn_string)
+        self.conn = psycopg2.connect(self.conn_string)
 
     def getrecords(self, lst):
         r = clprocessfiles.processfiles(self.path)
