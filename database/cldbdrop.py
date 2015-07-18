@@ -5,17 +5,18 @@ import pprint
 import clprocessfiles
 import cldbselect
 import cldbinsert
+import cldbconfig
+from pathlib import Path
 
 class dbdrop(object):
     def __init__(self):
         self.conn = None
-        self.path = '/home/sean/football/data/England/'
-        self.conn_string = "host='localhost' dbname='footballdb' user='postgres' password='password'"
+        x = cldbconfig()
+        self.conn_string.format(host = x.getdbhost(), dbname = x.getdbname(), user = x.getdbuser, password = x.getdbpassword())
+        self.pathdata = Path(x.getpathdata())
 
     def connect(self):
-        conn_string = "host='localhost' dbname='footballdb' user='postgres' password='password'"
-        print "Connecting to database\n  -->%s" % (conn_string)
-        self.conn = psycopg2.connect(conn_string)
+        self.conn = psycopg2.connect(self.conn_string)
 
     def droptablemapteams(self):
         with psycopg2.connect(self.conn_string) as conn:
