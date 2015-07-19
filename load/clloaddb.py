@@ -2,11 +2,13 @@ import psycopg2
 import psycopg2.extras
 import sys
 import pprint
-
-import loxias.readfiles
+# relative import
+from ..readfiles import *
 #import cldbselect
 #import cldbinsert
-import loxias.database as db
+from ..database import *
+import cldbconfig
+from pathlib import Path
 
 class loaddb(object):
     def __init__(self):

@@ -84,7 +84,7 @@ class processfiles(object):
         for i, s in enumerate(self.readfiles()):
             dt = self.getdate(s['Date'])
             if i < 10:
-                print s
+                print(s)
             sea = s['season']
             div = s['Div']
             t = (sea, div)
@@ -111,7 +111,7 @@ class processfiles(object):
         return dt
 
 if __name__ == '__main__':
-    path = '/home/sean/football/data/England'
+    path = '/Users/seanheffernan/Documents/football/results/english/'
     x = processfiles(path)
     dct = x.seasonteam()
 #    lst = x.mapteams()
