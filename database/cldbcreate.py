@@ -2,10 +2,10 @@ import psycopg2
 import psycopg2.extras
 import sys
 import pprint
-import clprocessfiles
-import cldbselect
-import cldbinsert
-import cldbconfig
+#import clprocessfiles
+from . import cldbselect
+from . import cldbinsert
+from . import cldbconfig
 from pathlib import Path
 
 class dbcreate(object):

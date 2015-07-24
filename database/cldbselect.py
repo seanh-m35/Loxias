@@ -2,8 +2,8 @@ import psycopg2
 import psycopg2.extras
 import sys
 import pprint
-import clprocessfiles
-import cldbconfig
+#import clprocessfiles
+from . import cldbconfig
 from pathlib import Path
 
 class dbselect(object):

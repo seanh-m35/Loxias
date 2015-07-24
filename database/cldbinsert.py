@@ -2,9 +2,9 @@ import psycopg2
 import psycopg2.extras
 import sys
 import pprint
-import clprocessfiles
-import cldbselect
-import cldbconfig
+#import clprocessfiles
+from . import cldbselect
+from . import cldbconfig
 from pathlib import Path
 
 class dbinsert(object):
@@ -56,7 +56,7 @@ class dbinsert(object):
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                 for d in lstcompetition:
-                    print d
+ #                   print d
                     cursor.execute('''insert into fbmapcompetition
                                   (competitionname, competitionid, mapped)
                          values (%(competitionname)s, %(competitionid)s, %(mapped)s)''', d)
@@ -71,7 +71,7 @@ class dbinsert(object):
                 lst.sort()
                 lstall = []
                 for k in lst:
-                    print k, dctseason[k], dctcompetition
+#                    print k, dctseason[k], dctcompetition
                     dct = {'seasonid':k[0], 'competitionid':dctcompetition[k[1]],
                             'seasonstart':dctseason[k][0], 'seasonend':dctseason[k][1]}
                     cursor.execute('''insert into fbseason (seasonid, competitionid, seasonstart,
@@ -85,7 +85,7 @@ class dbinsert(object):
             dctteams[team[0]] = team[1]
 #        print dctteams
         dctdivs = self.selectmapcompetition()
-        print dctdivs
+#        print dctdivs
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                 x = clprocessfiles.processfiles(self.path)
@@ -94,7 +94,7 @@ class dbinsert(object):
                     lst = list(v)
                     lst.sort()
                     d = {}
-                    print k
+ #                   print k
                     seasonid = k[0]
                     competitionid = dctdivs[k[1]]
                     homerating = 0
