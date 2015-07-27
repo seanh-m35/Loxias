@@ -10,7 +10,7 @@ class dbselect(object):
     def __init__(self):
         self.conn = None
         x = cldbconfig()
-        self.conn_string.format(host = x.getdbhost(), dbname = x.getdbname(), user = x.getdbuser, password = x.getdbpassword())
+        self.conn_string = "host = {0}, dbname = {1}, user = {2}, password = {3}".format(x.getdbhost(), x.getdbname(), x.getdbuser, x.getdbpassword())
         self.pathdata = Path(x.getpathdata())
 
     def connect(self):

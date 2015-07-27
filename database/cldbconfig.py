@@ -2,8 +2,10 @@ from configparser import ConfigParser
 
 class cldbconfig(object):
     def __init__(self):
+        print('CONSTRUCTOR: cldbconfig')
         self.cfg = ConfigParser()
-        self.cfg.read('config.ini')
+        self.cfg.read('/Users/seanheffernan/Development/python/lib/Loxias/database/config.ini')
+        print(self.cfg.sections())
 
     def getdbhost(self):
         return self.cfg.get('database', 'host')

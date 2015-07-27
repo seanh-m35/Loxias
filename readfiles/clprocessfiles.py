@@ -1,35 +1,66 @@
 import os
 import csv
 import datetime
+from pathlib import Path
+from ..database import cldbconfig as cfg
 
 class processfiles(object):
-    def __init__(self, path):
-        self.path = path
+    def __init__(self):
+        print("PROCESSFILES: CONSTRUCTOR")
+        x = cfg.cldbconfig()
+        self.path = Path(x.getpathdata())
+        print("PATH: ", self.path)
 
     def readfiles(self):
-        ''' Reads all the files for a country '''
-        #        print 'RF01'
-        lst = os.listdir(self.path)
-        lst = [os.path.join(self.path, x) for x in lst]
-        lst = [x for x in lst if os.path.isdir(x)]
-        for d in lst:
-            #            print 'RF02'
-            lst1 = os.listdir(d)
-            lst1 = [os.path.join(d, x) for x in lst1]
-            lst1 = [x for x in lst1 if os.path.isfile(x)]
-            for f in lst1:
-                #   print 'RF03'
-                with open(f, 'r') as f1:
-                    f1_csv = csv.DictReader(f1)
-                    p1 = os.path.split(f)
-                  #  print 'P1: ', p1[0]
-                    p2 = os.path.split(p1[0])
-                    season = p2[1]
-                 #   print 'RF04'
-                    for i, r in enumerate(f1_csv):
-                        r['season'] = season
-                        #      print 'RF05'
-                        yield r
+        print("PROCESSFILES =====> readfiles ")
+        print("PROCESSFILES: ", self.path)
+        lst = self.listdir()
+        lstall = self.listfiles(lst)
+        for child in lstall:
+            with child.open() as f:
+                reader = csv.DictReader(f)
+                for i, r in enumerate(reader):
+                    yield r
+
+#            q = Path(child)
+#            print("CHILD: ", child)
+#            print("Q: ", q)
+#            if q.is_dir():
+#                for subchild in q.iterdir():
+#                    nn = subchild.name
+#                    if nn[0] == ".":
+#                        continue
+
+        # lst = [os.path.join(self.path, x) for x in lst]
+        # lst = [x for x in lst if os.path.isdir(x)]
+        # for d in lst:
+        #     #            print 'RF02'
+        #     lst1 = os.listdir(d)
+        #     lst1 = [os.path.join(d, x) for x in lst1]
+        #     lst1 = [x for x in lst1 if os.path.isfile(x)]
+        #     for f in lst1:
+        #         #   print 'RF03'
+        #         with open(f, 'r') as f1:
+        #             f1_csv = csv.DictReader(f1)
+        #             p1 = os.path.split(f)
+        #           #  print 'P1: ', p1[0]
+        #             p2 = os.path.split(p1[0])
+        #             season = p2[1]
+        #          #   print 'RF04'
+        #             for i, r in enumerate(f1_csv):
+        #                 r['season'] = season
+        #                 #      print 'RF05'
+        #                 yield r
+
+    def listdir(self):
+        lst = [x for x in self.path.iterdir() if x.is_dir()]
+        return lst
+    def listfiles(self, lst):
+        lstall = []
+        for x in lst:
+            lstf = [y for y in x.iterdir() if y.suffix == ".csv"]
+            lstall.extend(lstf)
+        return lstall
 
     def mapteams(self):
         '''Returns a list of teams '''

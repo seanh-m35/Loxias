@@ -5,20 +5,21 @@ import pprint
 #import clprocessfiles
 from . import cldbselect
 from . import cldbinsert
-from . import cldbconfig
+from . import cldbconfig as cfg
 from pathlib import Path
 
 class dbcreate(object):
     def __init__(self):
         self.conn = None
-        x = cldbconfig()
-        self.conn_string.format(host = x.getdbhost(), dbname = x.getdbname(), user = x.getdbuser, password = x.getdbpassword())
+        x = cfg.cldbconfig()
+        self.conn_string = "host = '{0}' dbname = '{1}' user = '{2}' password = '{3}'".format(str(x.getdbhost()), str(x.getdbname()), str(x.getdbuser()), str(x.getdbpassword()))
         self.pathdata = Path(x.getpathdata())
 
     def connect(self):
         self.conn = psycopg2.connect(self.conn_string)
 
     def createtablemapteams(self):
+        print("MAPTEAMS: ", self.conn_string)
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                 cursor.execute('''create table if not exists fbmapteams
