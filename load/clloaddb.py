@@ -44,23 +44,27 @@ class loaddb(object):
         Args
            competitions -> dct key (season, div) value set of teams
         """
-#   create table if not exists fbcompetition
-#      (tier integer primary key, competitionname varchar(50));
+#                cursor.execute('''create table if not exists fbcompetition
+#                        (competitionid integer primary key, country varchar(20));''')
         pass
 
     def loadmapcompetittion(self, competitions):
-#   create table if not exists fbmapcompetition
-# (competitionid serial primary key, tier integer, div varchar(5), country char(20),
-#                          mapped boolean);
+#                cursor.execute('''create table if not exists fbmapcompetition
+#                         (div varchar(5) primary key, competitionid integer,
+#                          mapped boolean);''')
         pass
 
     def loadseasons(self, seasons):
+#              cursor.execute('''create table if not exists fbseason
+#                       (seasonid char(9), competitionid char(6),
+#                        competitionname varchar(50),  seasonstart date,
+#                        seasonend date, primary key(seasonid, competitionid));''')
         pass
 
     def loadseasonteam(self, seasonteams):
         """
                Args
-           competitions -> dct key (season, div) value set of teams
+           seasonteams -> dct key (season, div) value set of teams
 
         """
 #  create table if not exists fbseasonteam

@@ -51,17 +51,19 @@ class dbcreate(object):
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                 cursor.execute('''create table if not exists fbmapcompetition
-                         (competitionid serial primary key, tier integer, div varchar(5), country char(20),
+                         (div varchar(5) primary key, competitionid integer,
                           mapped boolean);''')
 
     def createtablecompetition(self):
         """
         Holds cannonical competition IDs
+        Competition is typically division
+        Competition name is in season because it can change between seasons
         """
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                  cursor.execute('''create table if not exists fbcompetition
-                        (competitionid integer primary key, tier integer, competitionname varchar(50));''')
+                        (competitionid integer primary key, country varchar(20));''')
 
 
     def createtableseason(self):
@@ -71,8 +73,9 @@ class dbcreate(object):
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                cursor.execute('''create table if not exists fbseason
-                       (seasonid char(9), competitionid char(6), seasonstart date,
-                       seasonend date, primary key(seasonid, competitionid));''')
+                       (seasonid char(9), competitionid char(6),
+                        competitionname varchar(50),  seasonstart date,
+                        seasonend date, primary key(seasonid, competitionid));''')
 
     def createtableseasonteam(self):
         """
