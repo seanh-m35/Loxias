@@ -4,14 +4,14 @@ import sys
 import pprint
 #import clprocessfiles
 from . import cldbselect
-from . import cldbconfig
+from . import cldbconfig as cfg
 from pathlib import Path
 
 class dbinsert(object):
     def __init__(self):
         self.conn = None
-        x = cldbconfig()
-        self.conn_string.format(host = x.getdbhost(), dbname = x.getdbname(), user = x.getdbuser, password = x.getdbpassword())
+        x = cfg.cldbconfig()
+        self.conn_string = "host = '{0}' dbname = '{1}' user = '{2}' password = '{3}'".format(str(x.getdbhost()), str(x.getdbname()), str(x.getdbuser()), str(x.getdbpassword()))
         self.pathdata = Path(x.getpathdata())
 
     def connect(self):
@@ -19,10 +19,8 @@ class dbinsert(object):
 
 
     def insertmapteams(self, team):
-        x = cldbselect.dbselect()
-        cnt = x.selectcountmapteams() + 1
         lstdct = []
-        c = {'teamname':team, 'teamid':cnt, 'mapped':'F'}
+        c = {'teamname':team[0], 'teamid':team[2], 'mapped':'T'}
 
         with psycopg2.connect(self.conn_string) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:

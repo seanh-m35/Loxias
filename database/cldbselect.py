@@ -3,14 +3,14 @@ import psycopg2.extras
 import sys
 import pprint
 #import clprocessfiles
-from . import cldbconfig
+from . import cldbconfig as cfg
 from pathlib import Path
 
 class dbselect(object):
     def __init__(self):
         self.conn = None
-        x = cldbconfig()
-        self.conn_string = "host = {0}, dbname = {1}, user = {2}, password = {3}".format(x.getdbhost(), x.getdbname(), x.getdbuser, x.getdbpassword())
+        x = cfg.cldbconfig()
+        self.conn_string = "host = '{0}' dbname = '{1}' user = '{2}' password = '{3}'".format(str(x.getdbhost()), str(x.getdbname()), str(x.getdbuser()), str(x.getdbpassword()))
         self.pathdata = Path(x.getpathdata())
 
     def connect(self):
@@ -26,7 +26,7 @@ class dbselect(object):
             with conn.cursor(cursor_factory=psycopg2.extras.DictCursor)  as cursor:
                 cursor.execute("select * from fbteams")
                 records = cursor.fetchall()
-                pprint.pprint(records)
+              #  pprint.pprint(records)
                 return records
     def selectmapteams(self):
         with psycopg2.connect(self.conn_string) as conn:

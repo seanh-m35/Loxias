@@ -1,8 +1,10 @@
 import random
 
 class simulate(object):
-    def __init__(self):
-        self.bank = 100
+    def __init__(self, bank=100, perc=1.00, stake=1):
+        self.bank = bank
+        self.perc = perc
+        self.stake = stake
     def pick(self):
         i = random.randint(1, 100)
         return i
